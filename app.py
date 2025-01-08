@@ -19,7 +19,7 @@ client = ChatNVIDIA(
     max_tokens=1024,
 )
 
-@app.route('/chat', methods=['POST'])
+@app.route('/chat', methods=['GET'])
 def chat():
     data = request.json
     messages = data.get('messages', [])
@@ -29,6 +29,3 @@ def chat():
             yield chunk.content
 
     return Response(generate(), mimetype='text/plain')
-
-# if __name__ == '__main__':
-#     app.run(debug=True, port=5000)
