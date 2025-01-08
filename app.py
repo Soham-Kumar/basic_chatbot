@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify, Response, render_template
 from flask_cors import CORS
 from langchain_nvidia_ai_endpoints import ChatNVIDIA
 import os
@@ -18,6 +18,9 @@ client = ChatNVIDIA(
     top_p=0.7,
     max_tokens=1024,
 )
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 @app.route('/chat', methods=['GET'])
 def chat():
@@ -29,3 +32,6 @@ def chat():
             yield chunk.content
 
     return Response(generate(), mimetype='text/plain')
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
